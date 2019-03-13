@@ -1,38 +1,31 @@
 package foo
 
-import utest._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.Row
+import org.apache.spark.sql.functions._
+import com.github.mrpowers.spark.fast.tests.DatasetComparer
 
-object ExampleTests extends TestSuite with SparkSessionTestWrapper {
+class DatasetSpec extends FunSpec with SparkSessionTestWrapper with DatasetComparer {
 
-  val tests = Tests {
+  import spark.implicits._
 
-    'test1 - {
-      assert(Example.greeting() == "hi")
-    }
+  it("aliases a DataFrame") {
 
-    'test2 - {
-      assert(10 == 10)
-    }
+    val sourceDF = Seq(
+      ("jose"),
+      ("li"),
+      ("luisa")
+    ).toDF("name")
 
-    "a dataframe can be built" - {
-      val rows = spark.sparkContext.parallelize(
-        List(
-          Row(1.0, 2.0)
-        )
-      )
+    val actualDF = sourceDF.select(col("name").alias("student"))
 
-      val schema = List(
-        StructField("id", DoubleType, true),
-        StructField("features", DoubleType, true)
-      )
+    val expectedDF = Seq(
+      ("jose"),
+      ("li"),
+      ("luisa")
+    ).toDF("student")
 
-      val df = spark.createDataFrame(
-        rows,
-        StructType(schema)
-      )
-    }
+    assertSmallDatasetEquality(actualDF, expectedDF)
 
   }
 
