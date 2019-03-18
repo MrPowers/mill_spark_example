@@ -12,7 +12,7 @@ object ExampleTests extends TestSuite with SparkSessionTestWrapper with DatasetC
 
     import spark.implicits._
 
-    "aliases a DataFrame" - {
+    "withGreeting" - {
 
       val sourceDF = Seq(
         ("jose"),
@@ -20,15 +20,15 @@ object ExampleTests extends TestSuite with SparkSessionTestWrapper with DatasetC
         ("luisa")
       ).toDF("name")
 
-      val actualDF = sourceDF.select(col("name").alias("student"))
+      val actualDF = sourceDF.transform(Example.withGreeting())
 
       val expectedDF = Seq(
-        ("jose"),
-        ("li"),
-        ("luisa")
-      ).toDF("student")
+        ("jose", "hello!"),
+        ("li", "hello!"),
+        ("luisa", "hello!")
+      ).toDF("name", "greeting")
 
-      assertSmallDatasetEquality(actualDF, expectedDF)
+      assertSmallDatasetEquality(actualDF, expectedDF, ignoreNullable = true)
 
     }
 
