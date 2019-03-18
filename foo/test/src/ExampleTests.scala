@@ -5,6 +5,7 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.functions._
 import com.github.mrpowers.spark.fast.tests.DatasetComparer
+import com.github.mrpowers.spark.daria.sql.SparkSessionExt._
 
 object ExampleTests extends TestSuite with SparkSessionTestWrapper with DatasetComparer {
 
@@ -14,11 +15,15 @@ object ExampleTests extends TestSuite with SparkSessionTestWrapper with DatasetC
 
     "withGreeting" - {
 
-      val sourceDF = Seq(
-        ("jose"),
-        ("li"),
-        ("luisa")
-      ).toDF("name")
+      val sourceDF = spark.createDF(
+        List(
+          ("jose"),
+          ("li"),
+          ("luisa")
+        ), List(
+          ("name", StringType, true)
+        )
+      )
 
       val actualDF = sourceDF.transform(Example.withGreeting())
 

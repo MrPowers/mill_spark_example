@@ -19,7 +19,8 @@ object foo extends ScalaModule {
   object test extends Tests{
     def ivyDeps = Agg(
       ivy"com.lihaoyi::utest:0.6.0",
-      ivy"MrPowers:spark-fast-tests:0.17.1-s_2.11"
+      ivy"MrPowers:spark-fast-tests:0.17.1-s_2.11",
+      ivy"mrpowers:spark-daria:0.26.1-s_2.11"
     )
     def testFrameworks = Seq("utest.runner.Framework")
   }
