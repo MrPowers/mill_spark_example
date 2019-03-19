@@ -7,8 +7,16 @@ An Apache Spark project with the Mill build tool.
 
 ## Build
 
+Thin JAR file:
+
 ```bash
 mill foo.compile
+```
+ 
+Fat JAR file:
+
+```bash
+mill foo.assemble
 ```
 
 ## Test

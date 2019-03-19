@@ -10,14 +10,19 @@ object foo extends ScalaModule {
     MavenRepository("http://dl.bintray.com/spark-packages/maven")
   )
 
-
   def ivyDeps = Agg(
+    ivy"org.apache.spark::spark-sql:2.3.0",
+    ivy"mrpowers:spark-daria:0.26.1-s_2.11"
+  )
+
+  def compileIvyDeps = Agg(
     ivy"org.apache.spark::spark-sql:2.3.0",
     ivy"mrpowers:spark-daria:0.26.1-s_2.11"
   )
 
   object test extends Tests{
     def ivyDeps = Agg(
+      ivy"org.apache.spark::spark-sql:2.3.0",
       ivy"com.lihaoyi::utest:0.6.0",
       ivy"MrPowers:spark-fast-tests:0.17.1-s_2.11",
       ivy"mrpowers:spark-daria:0.26.1-s_2.11"
