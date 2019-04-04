@@ -28,9 +28,9 @@ object ExampleTests extends TestSuite with SparkSessionTestWrapper with DatasetC
       val actualDF = sourceDF.transform(Example.withGreeting())
 
       val expectedDF = Seq(
-        ("jose", "hello!"),
-        ("li", "hello!"),
-        ("luisa", "hello!")
+        ("jose", "helloYOU!"),
+        ("li", "helloYOU!"),
+        ("luisa", "helloYOU!")
       ).toDF("name", "greeting")
 
       assertSmallDatasetEquality(actualDF, expectedDF, ignoreNullable = true)
