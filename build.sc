@@ -1,5 +1,6 @@
 import mill._
 import mill.scalalib._
+import mill.modules.Assembly
 import coursier.maven.MavenRepository
 
 object foo extends ScalaModule {
@@ -9,15 +10,17 @@ object foo extends ScalaModule {
     MavenRepository("http://dl.bintray.com/spark-packages/maven")
   )
 
-  def ivyDeps = Agg(
-    ivy"org.apache.spark::spark-sql:2.3.0",
-    ivy"mrpowers:spark-daria:0.26.1-s_2.11",
+  def compileIvyDeps = Agg(
+    ivy"org.apache.spark::spark-sql:2.3.0"
   )
 
-//  def compileIvyDeps = Agg(
-//    ivy"org.apache.spark::spark-sql:2.3.0",
-//    ivy"mrpowers:spark-daria:0.26.1-s_2.11"
-//  )
+  def ivyDeps = Agg(
+    ivy"mrpowers:spark-daria:0.26.1-s_2.11"
+  )
+
+  def assemblyRules = Assembly.defaultRules ++
+    Seq("scala/.*", "org\\.apache\\.spark/.*")
+      .map(Assembly.Rule.ExcludePattern.apply)
 
   object test extends Tests{
     def ivyDeps = Agg(
