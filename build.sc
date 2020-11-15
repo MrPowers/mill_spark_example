@@ -6,28 +6,24 @@ import coursier.maven.MavenRepository
 object foo extends ScalaModule {
   def scalaVersion = "2.11.12"
 
-  def repositories = super.repositories ++ Seq(
-    MavenRepository("http://dl.bintray.com/spark-packages/maven")
+  override def compileIvyDeps = Agg(
+    ivy"org.apache.spark::spark-sql:2.4.7"
   )
 
-  def compileIvyDeps = Agg(
-    ivy"org.apache.spark::spark-sql:2.3.0"
+  override def ivyDeps = Agg(
+    ivy"com.github.mrpowers::spark-daria:0.38.2"
   )
 
-  def ivyDeps = Agg(
-    ivy"mrpowers:spark-daria:0.26.1-s_2.11"
-  )
-
-  def assemblyRules = Assembly.defaultRules ++
+  override def assemblyRules = Assembly.defaultRules ++
     Seq("scala/.*", "org\\.apache\\.spark/.*")
       .map(Assembly.Rule.ExcludePattern.apply)
 
   object test extends Tests{
-    def ivyDeps = Agg(
-      ivy"org.apache.spark::spark-sql:2.3.0",
-      ivy"com.lihaoyi::utest:0.6.0",
-      ivy"MrPowers:spark-fast-tests:0.17.1-s_2.11",
-      ivy"mrpowers:spark-daria:0.26.1-s_2.11",
+    override def ivyDeps = Agg(
+      ivy"org.apache.spark::spark-sql:2.4.7",
+      ivy"com.lihaoyi::utest:0.7.5",
+      ivy"com.github.mrpowers::spark-fast-tests:0.21.3",
+      ivy"com.github.mrpowers::spark-daria:0.38.2"
     )
     def testFrameworks = Seq("utest.runner.Framework")
   }
