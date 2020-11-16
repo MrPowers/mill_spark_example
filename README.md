@@ -1,26 +1,20 @@
 # Mill Spark Example
 
-An example Apache Spark project with the Mill build tool.
+An example Apache Spark project built with Mill.
 
 ## Build
 
-Thin JAR file:
+Build fat JAR file:
 
-```bash
-mill foo.compile
 ```
- 
-Fat JAR file:
-
-```bash
 mill foo.assemble
 ```
 
 ## Test
 
-``bash
+```
 mill foo.test
-``
+```
 
 ## TODO
 
